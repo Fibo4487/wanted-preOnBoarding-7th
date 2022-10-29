@@ -18,10 +18,9 @@ const IssueCard = ({ issue }: IssueCardProps) => {
           <IssueTitle>{title}</IssueTitle>
         </div>
         <div className="Row">
-          <IssueAuthor>작성자: {user?.login},</IssueAuthor>
-          <IssueCreatedDate>
-            작성일: {dateToKorean(created_at)}
-          </IssueCreatedDate>
+          <IssueInfo>
+            {`작성자: ${user?.login}, 작성일: ${dateToKorean(created_at)}`}
+          </IssueInfo>
         </div>
       </div>
       <div className="Column">
@@ -34,7 +33,7 @@ const IssueCard = ({ issue }: IssueCardProps) => {
 export default React.memo(IssueCard);
 
 const IssueItem = styled.div`
-  padding: 1rem;
+  padding: 0 1rem;
   border-bottom: 1px solid #e1e4e8;
   display: flex;
   align-items: center;
@@ -57,19 +56,12 @@ const IssueItem = styled.div`
 const IssueTitle = styled.h2`
   font-size: 0.9rem;
   font-weight: 600;
-  overflow: hidden;
   text-overflow: ellipsis;
 `;
 
-const IssueCreatedDate = styled.span`
+const IssueInfo = styled.div`
   font-size: 0.8rem;
   color: #586069;
-`;
-
-const IssueAuthor = styled.p`
-  font-size: 0.8rem;
-  color: #586069;
-  margin-right: 0.5rem;
 `;
 
 const IssueNumber = styled.span`
@@ -81,4 +73,5 @@ const IssueNumber = styled.span`
 const IssueCommentCount = styled.span`
   font-size: 0.8rem;
   color: #586069;
+  margin-left: 0.5rem;
 `;

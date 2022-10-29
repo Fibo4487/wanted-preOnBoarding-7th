@@ -1,19 +1,25 @@
 import React from "react";
 
-import { useIssueContext, IssueListType } from "@/Lib/states/IssueProvider";
+import { IssueListType } from "@/Lib/states/IssueProvider";
 import styled from "styled-components";
 import IssueCard from "./IssueCard";
 import FeedAd from "./FeedAd";
+import useIntersect from "@/Lib/hooks/useIntersect";
+import useFetchAngularIssue from "@/Lib/hooks/useFetchAngularIssue";
 
 const IssueInfinityList = () => {
-  const { issueList, actions } = useIssueContext();
+  const { issueList, hasNextPage, isFetching, fetchIssueList, fetchNextPage } =
+    useFetchAngularIssue();
 
-  const handleClickNext = () => {
-    actions.fetchNextPageIssueList();
-  };
+  const ref = useIntersect(async (entry, observer) => {
+    observer.unobserve(entry.target);
+    if (hasNextPage && !isFetching) {
+      await fetchNextPage();
+    }
+  });
 
-  React.useLayoutEffect(() => {
-    actions.fetchIssueList();
+  React.useEffect(() => {
+    fetchIssueList();
   }, []);
 
   return (
@@ -28,7 +34,8 @@ const IssueInfinityList = () => {
         }
         return <IssueCard key={issue.id} issue={issue} />;
       })}
-      <button onClick={handleClickNext}>다음 페이지</button>
+      {isFetching && <Loading />}
+      <Target ref={ref} />
     </IssueListContainer>
   );
 };
@@ -38,4 +45,13 @@ export default IssueInfinityList;
 const IssueListContainer = styled.div`
   height: 100%;
   overflow-y: auto;
+`;
+
+const Loading = styled.div`
+  height: 100px;
+  background-color: #e1e4e8;
+`;
+
+const Target = styled.div`
+  height: 1px;
 `;
