@@ -1,4 +1,5 @@
 import { IssueListType } from "@/Lib/states/IssueProvider";
+import media from "@/Lib/styles/media";
 import dateToKorean from "@/Lib/utils/dateToKorean";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,11 +10,11 @@ export interface IssueCardProps {
 }
 
 const IssueCard = ({ issue }: IssueCardProps) => {
-  const { id, number, title, user, created_at, comments } = issue;
+  const { number, title, user, created_at, comments } = issue;
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/${id}`);
+    navigate(`/${number}`);
   };
 
   return (
@@ -50,7 +51,7 @@ const IssueItem = styled.div`
   .Column {
     display: flex;
     flex-direction: column;
-    min-width: 100px;
+    min-width: 80px;
   }
 
   .Row {
@@ -67,16 +68,19 @@ const IssueTitle = styled.h2`
 `;
 
 const IssueInfo = styled.div`
-  font-size: 0.7rem;
+  font-size: 1rem;
+  ${media.mobile} {
+    font-size: 0.7rem;
+  }
   color: #586069;
   text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 const IssueNumber = styled.span`
   font-size: 0.8rem;
   color: #586069;
-  margin-right: 0.5rem;
-  min-width: 60px;
+  min-width: 50px;
 `;
 
 const IssueCommentCount = styled.span`

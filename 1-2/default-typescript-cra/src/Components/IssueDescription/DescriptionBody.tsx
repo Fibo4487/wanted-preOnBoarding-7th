@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
 import { IssueListType } from "@/Lib/states/IssueProvider";
+import { Navigate } from "react-router-dom";
 
 interface DescriptionBodyProps {
   issue: IssueListType[number];
@@ -11,7 +12,7 @@ const DescriptionBody = ({ issue }: DescriptionBodyProps) => {
   const { body } = issue;
 
   if (!body) {
-    return <div>body Not Found</div>;
+    return <Navigate to="/Error" />;
   }
   return (
     <BodyContainer>

@@ -1,32 +1,42 @@
 import React from "react";
 
-import { useParams } from "react-router-dom";
-import { useIssueContext } from "@/Lib/states/IssueProvider";
+import { Navigate, useParams } from "react-router-dom";
+import { IssueListType } from "@/Lib/states/IssueProvider";
 import styled from "styled-components";
 import DescriptionTitle from "@/Components/IssueDescription/DescriptionTitle";
 import DescriptionBody from "@/Components/IssueDescription/DescriptionBody";
+import useFetchAngularIssue from "@/Lib/hooks/useFetchAngularIssue";
+import Spinner from "@/Components/Loading/Spinner";
 
 const IssueDescription = () => {
-  const { issueId } = useParams();
-  const { issueList } = useIssueContext();
-
-  const issue = React.useMemo(
-    () => issueList.find((issue) => issue.id === Number(issueId)),
-    [issueId, issueList]
-  );
+  const params = useParams();
+  const issueNumber = Number(params?.issueNumber);
+  const [issue, setIssue] = React.useState<IssueListType[number] | null>(null);
+  const { fetchIssue, isError } = useFetchAngularIssue();
 
   React.useEffect(() => {
-    console.log(issueList);
+    fetchIssue(issueNumber).then((issue) => {
+      if (issue) {
+        setIssue(issue);
+      }
+    });
   }, []);
-  if (!issue) {
-    return <div>Issue Not Found</div>;
+
+  if (isError && !issue) {
+    return <Navigate to="/Error" />;
   }
 
   return (
     <>
       <Container>
-        <DescriptionTitle issue={issue} />
-        <DescriptionBody issue={issue} />
+        {issue ? (
+          <>
+            <DescriptionTitle issue={issue} />
+            <DescriptionBody issue={issue} />
+          </>
+        ) : (
+          <Spinner />
+        )}
       </Container>
     </>
   );
@@ -35,7 +45,6 @@ const IssueDescription = () => {
 export default IssueDescription;
 
 const Container = styled.div`
-  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;

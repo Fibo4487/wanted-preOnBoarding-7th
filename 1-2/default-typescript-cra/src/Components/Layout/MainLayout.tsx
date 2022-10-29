@@ -17,7 +17,7 @@ const Block = styled.div`
   ${media.mobile} {
     padding: 0;
   }
-  hide-scrollbar;
+  width: 100%;
 `;
 const Main = styled.main`
   flex: 1;

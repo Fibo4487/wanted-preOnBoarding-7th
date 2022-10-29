@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { IssueListType } from "@/Lib/states/IssueProvider";
 import IssueCard from "../IssueList/IssueCard";
+import media from "@/Lib/styles/media";
 
 interface DescriptionTitleProps {
   issue: IssueListType[number];
@@ -29,4 +30,8 @@ const AuthorImage = styled.img`
   width: 5rem;
   height: 5rem;
   margin-right: 1rem;
+  ${media.mobile} {
+    width: 3rem;
+    height: 3rem;
+  }
 `;

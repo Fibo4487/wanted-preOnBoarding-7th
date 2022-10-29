@@ -16,13 +16,16 @@ const useFetchAngularIssue = () => {
   const { issueList, setIssueList } = useIssueContext();
   const [isFetching, setIsFetching] = useState(false);
   const [hasNextPage, setHasNextPage] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   const fetchIssueList = async () => {
     if (!hasNextPage) return;
     setIsFetching(true);
     const fetchedIssueList = await angularIssueFetcher.getIssueList(0);
     if (!fetchedIssueList) {
-      throw new Error("데이터를 가져오는데 실패했습니다.");
+      setIsFetching(false);
+      setIsError(true);
+      return;
     }
     if (fetchedIssueList.length < angularIssueFetcher.per_page) {
       setHasNextPage(false);
@@ -36,7 +39,9 @@ const useFetchAngularIssue = () => {
     const page = issueList.length / angularIssueFetcher.per_page + 1;
     const fetchedIssueList = await angularIssueFetcher.getIssueList(page);
     if (!fetchedIssueList) {
-      throw new Error("데이터를 가져오는데 실패했습니다.");
+      setIsFetching(false);
+      setIsError(true);
+      return;
     }
     if (
       fetchedIssueList.length < angularIssueFetcher.per_page ||
@@ -48,7 +53,24 @@ const useFetchAngularIssue = () => {
     setIsFetching(false);
   };
 
-  return { issueList, hasNextPage, isFetching, fetchIssueList, fetchNextPage };
+  const fetchIssue = async (issueNumber: number) => {
+    const fetchedIssue = await angularIssueFetcher.getIssue(issueNumber);
+    if (!fetchedIssue) {
+      setIsError(true);
+      return;
+    }
+    return fetchedIssue;
+  };
+
+  return {
+    issueList,
+    hasNextPage,
+    isFetching,
+    fetchIssueList,
+    fetchNextPage,
+    fetchIssue,
+    isError
+  };
 };
 
 export default useFetchAngularIssue;

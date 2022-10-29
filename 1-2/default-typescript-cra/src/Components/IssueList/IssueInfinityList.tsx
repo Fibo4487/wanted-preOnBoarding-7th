@@ -7,10 +7,17 @@ import FeedAd from "./FeedAd";
 import useIntersect from "@/Lib/hooks/useIntersect";
 import useFetchAngularIssue from "@/Lib/hooks/useFetchAngularIssue";
 import Spinner from "../Loading/Spinner";
+import { Navigate } from "react-router-dom";
 
 const IssueInfinityList = () => {
-  const { issueList, hasNextPage, isFetching, fetchIssueList, fetchNextPage } =
-    useFetchAngularIssue();
+  const {
+    issueList,
+    hasNextPage,
+    isFetching,
+    fetchIssueList,
+    fetchNextPage,
+    isError
+  } = useFetchAngularIssue();
 
   const ref = useIntersect(async (entry, observer) => {
     observer.unobserve(entry.target);
@@ -22,6 +29,10 @@ const IssueInfinityList = () => {
   React.useEffect(() => {
     fetchIssueList();
   }, []);
+
+  if (isError) {
+    return <Navigate to="/Error" />;
+  }
 
   return (
     <IssueListContainer>
