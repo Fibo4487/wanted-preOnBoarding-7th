@@ -1,17 +1,23 @@
 import { IssueListType } from "@/Lib/states/IssueProvider";
 import dateToKorean from "@/Lib/utils/dateToKorean";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-interface IssueCardProps {
+export interface IssueCardProps {
   issue: IssueListType[number];
 }
 
 const IssueCard = ({ issue }: IssueCardProps) => {
-  const { number, title, user, created_at, comments } = issue;
+  const { id, number, title, user, created_at, comments } = issue;
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/${id}`);
+  };
 
   return (
-    <IssueItem>
+    <IssueItem onClick={handleClick}>
       <div className="Column">
         <div className="Row">
           <IssueNumber>#{number}</IssueNumber>
@@ -33,7 +39,8 @@ const IssueCard = ({ issue }: IssueCardProps) => {
 export default React.memo(IssueCard);
 
 const IssueItem = styled.div`
-  padding: 0 1rem;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
   border-bottom: 1px solid #e1e4e8;
   display: flex;
   align-items: center;
@@ -43,7 +50,7 @@ const IssueItem = styled.div`
   .Column {
     display: flex;
     flex-direction: column;
-    min-width: 65px;
+    min-width: 100px;
   }
 
   .Row {
@@ -55,23 +62,26 @@ const IssueItem = styled.div`
 
 const IssueTitle = styled.h2`
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 100;
   text-overflow: ellipsis;
 `;
 
 const IssueInfo = styled.div`
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: #586069;
+  text-overflow: ellipsis;
 `;
 
 const IssueNumber = styled.span`
   font-size: 0.8rem;
   color: #586069;
   margin-right: 0.5rem;
+  min-width: 60px;
 `;
 
 const IssueCommentCount = styled.span`
   font-size: 0.8rem;
   color: #586069;
   margin-left: 0.5rem;
+  align-self: flex-end;
 `;

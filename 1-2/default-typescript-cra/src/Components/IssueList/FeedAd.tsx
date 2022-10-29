@@ -23,5 +23,5 @@ const Img = styled.img`
   display: block;
   height: auto;
   width: 30%;
-  margin: 0 auto;
+  margin: auto;
 `;
