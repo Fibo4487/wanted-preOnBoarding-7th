@@ -11,7 +11,7 @@ class IssueService {
   protected issueConfig: IssueConfig;
 
   constructor(owner: string, repo: string) {
-    this.page = 1;
+    this.page = 0;
     this.owner = owner;
     this.repo = repo;
     this.issueListConfig = {

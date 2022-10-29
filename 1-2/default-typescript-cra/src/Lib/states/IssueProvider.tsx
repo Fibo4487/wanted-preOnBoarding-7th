@@ -8,7 +8,6 @@ export type IssueListType =
 type IssueActionType = {
   fetchIssueList: () => Promise<void>;
   fetchNextPageIssueList: () => Promise<void>;
-  getOwnerAndRepo: () => { owner: string; repo: string };
 };
 
 interface IssueContextType {
@@ -21,9 +20,15 @@ const IssueContext = createContext<IssueContextType | null>(null);
 export const IssueProvider = ({ children }: { children: React.ReactNode }) => {
   const [issueList, setIssueList] = React.useState<IssueListType>([]);
 
+  const owner = process.env.REACT_APP_OWNER;
+  const repo = process.env.REACT_APP_REPO;
+
   const angularIssueFetcher = React.useMemo(() => {
-    return new IssueService("angular", "angular-cli");
-  }, []);
+    if (!owner || !repo) {
+      throw new Error("owner or repo 가 env 에 설정되지 않았습니다.");
+    }
+    return new IssueService(owner, repo);
+  }, [owner, repo]);
 
   const actions = React.useMemo(() => {
     return {
@@ -41,22 +46,12 @@ export const IssueProvider = ({ children }: { children: React.ReactNode }) => {
           throw new Error("데이터를 불러오지 못했습니다.");
         }
         setIssueList((prev) => [...prev, ...data]);
-      },
-
-      getOwnerAndRepo: () => {
-        return {
-          owner: angularIssueFetcher.owner,
-          repo: angularIssueFetcher.repo
-        };
       }
     };
   }, [setIssueList, angularIssueFetcher]);
 
   const value = React.useMemo(
-    () => ({
-      issueList,
-      actions
-    }),
+    () => ({ issueList, actions }),
     [issueList, actions]
   );
 
@@ -68,7 +63,7 @@ export const IssueProvider = ({ children }: { children: React.ReactNode }) => {
 export const useIssueContext = () => {
   const state = useContext(IssueContext);
   if (!state) {
-    throw new Error("not wrapped with IssueProvider");
+    throw new Error("IssueProvider로 감싸지지 않았습니다.");
   }
   return state;
 };

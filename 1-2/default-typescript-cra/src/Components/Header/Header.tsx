@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { useIssueContext } from "@/Lib/states/IssueProvider";
 
 const Header = () => {
-  const { actions } = useIssueContext();
-  const { owner, repo } = actions.getOwnerAndRepo();
+  const owner = process.env.REACT_APP_OWNER;
+  const repo = process.env.REACT_APP_REPO;
+
   return (
     <HeaderContainer>
       <h1>
