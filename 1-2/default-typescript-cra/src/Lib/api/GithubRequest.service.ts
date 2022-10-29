@@ -49,4 +49,4 @@ class GithubRequestService {
   }
 }
 
-export default new GithubRequestService(process.env.REACT_APP_GITHUB_TOKEN);
+export default new GithubRequestService(process.env.REACT_APP_GITHUB_CLIENT_ID);

@@ -1,25 +1,26 @@
 import githubIssueApi, {
   IssueConfig,
   IssueListConfig
-} from "./GithubRequest.service";
+} from "../api/GithubRequest.service";
 
-class AngularIssueService {
-  public page: number;
-  private owner: string;
-  private repo: string;
+class IssueService {
+  protected page: number;
+  readonly owner: string;
+  readonly repo: string;
   protected issueListConfig: IssueListConfig;
   protected issueConfig: IssueConfig;
 
-  constructor() {
+  constructor(owner: string, repo: string) {
     this.page = 1;
-    this.owner = "angular";
-    this.repo = "angular-cli";
+    this.owner = owner;
+    this.repo = repo;
     this.issueListConfig = {
       state: "open",
       page: this.page,
       sort: "comments",
       owner: this.owner,
-      repo: this.repo
+      repo: this.repo,
+      per_page: 3
     };
     this.issueConfig = {
       owner: this.owner,
@@ -40,6 +41,12 @@ class AngularIssueService {
       issue_number: issueNumber
     });
   }
+
+  getNextPageIssueList() {
+    this.page += 1;
+    this.issueListConfig.page = this.page;
+    return this.getIssueList();
+  }
 }
 
-export default new AngularIssueService();
+export default IssueService;
