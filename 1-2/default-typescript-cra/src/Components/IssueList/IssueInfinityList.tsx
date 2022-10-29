@@ -6,6 +6,7 @@ import IssueCard from "./IssueCard";
 import FeedAd from "./FeedAd";
 import useIntersect from "@/Lib/hooks/useIntersect";
 import useFetchAngularIssue from "@/Lib/hooks/useFetchAngularIssue";
+import { Spinner } from "../Loading/Spinner";
 
 const IssueInfinityList = () => {
   const { issueList, hasNextPage, isFetching, fetchIssueList, fetchNextPage } =
@@ -34,7 +35,7 @@ const IssueInfinityList = () => {
         }
         return <IssueCard key={issue.id} issue={issue} />;
       })}
-      {isFetching && <Loading />}
+      {isFetching && <Spinner />}
       <Target ref={ref} />
     </IssueListContainer>
   );
@@ -45,11 +46,6 @@ export default IssueInfinityList;
 const IssueListContainer = styled.div`
   height: 100%;
   overflow-y: auto;
-`;
-
-const Loading = styled.div`
-  height: 100px;
-  background-color: #e1e4e8;
 `;
 
 const Target = styled.div`
