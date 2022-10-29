@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-function IssueListLayout({ children }: React.PropsWithChildren) {
+function MainLayout({ children }: React.PropsWithChildren) {
   return (
     <Block>
       <Main>{children}</Main>
@@ -17,4 +17,4 @@ const Main = styled.main`
   flex: 1;
 `;
 
-export default IssueListLayout;
+export default MainLayout;

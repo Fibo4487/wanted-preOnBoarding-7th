@@ -1,15 +1,10 @@
-import React from "react";
-import IssueListLayout from "@/Components/IssueList/IssueListLayout";
-import Header from "@/Components/Header/Header";
 import IssueInfinityList from "@/Components/IssueList/IssueInfinityList";
+import React from "react";
 
 const IssueList = () => {
   return (
     <>
-      <Header />
-      <IssueListLayout>
-        <IssueInfinityList />
-      </IssueListLayout>
+      <IssueInfinityList />
     </>
   );
 };

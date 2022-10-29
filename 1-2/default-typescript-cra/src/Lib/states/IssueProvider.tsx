@@ -28,12 +28,12 @@ export const IssueProvider = ({ children }: { children: React.ReactNode }) => {
       throw new Error("owner or repo 가 env 에 설정되지 않았습니다.");
     }
     return new IssueService(owner, repo);
-  }, [owner, repo]);
+  }, []);
 
   const actions = React.useMemo(() => {
     return {
       fetchIssueList: async () => {
-        const data = await angularIssueFetcher.getIssueList();
+        const data = await angularIssueFetcher.getNextPageIssueList();
         if (!data) {
           throw new Error("데이터를 불러오지 못했습니다.");
         }

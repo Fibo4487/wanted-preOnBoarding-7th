@@ -12,6 +12,10 @@ const IssueInfinityList = () => {
     actions.fetchNextPageIssueList();
   };
 
+  React.useLayoutEffect(() => {
+    actions.fetchIssueList();
+  }, []);
+
   return (
     <IssueListContainer>
       {issueList.map((issue: IssueListType[number], index) => {

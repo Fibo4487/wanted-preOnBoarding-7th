@@ -11,7 +11,7 @@ class IssueService {
   protected issueConfig: IssueConfig;
 
   constructor(owner: string, repo: string) {
-    this.page = 0;
+    this.page = -1;
     this.owner = owner;
     this.repo = repo;
     this.issueListConfig = {
@@ -30,6 +30,8 @@ class IssueService {
   }
 
   getIssueList() {
+    this.page = 0;
+    this.issueListConfig.page = this.page;
     return githubIssueApi.getIssueList({
       ...this.issueListConfig
     });
@@ -45,7 +47,9 @@ class IssueService {
   getNextPageIssueList() {
     this.page += 1;
     this.issueListConfig.page = this.page;
-    return this.getIssueList();
+    return githubIssueApi.getIssueList({
+      ...this.issueListConfig
+    });
   }
 }
 
