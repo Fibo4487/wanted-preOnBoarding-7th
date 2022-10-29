@@ -1,4 +1,5 @@
 import { IssueListType } from "@/Lib/states/IssueProvider";
+import dateToKorean from "@/Lib/utils/dateToKorean";
 import React from "react";
 import styled from "styled-components";
 
@@ -11,11 +12,21 @@ const IssueCard = ({ issue }: IssueCardProps) => {
 
   return (
     <IssueItem>
-      <IssueNumber>#{number}</IssueNumber>
-      <IssueTitle>{title}</IssueTitle>
-      <IssueDescription>{created_at}</IssueDescription>
-      <IssueAuthor>{user?.login}</IssueAuthor>
-      <IssueCommentCount>코멘트:{comments}</IssueCommentCount>
+      <div className="Column">
+        <div className="Row">
+          <IssueNumber>#{number}</IssueNumber>
+          <IssueTitle>{title}</IssueTitle>
+        </div>
+        <div className="Row">
+          <IssueAuthor>작성자: {user?.login},</IssueAuthor>
+          <IssueCreatedDate>
+            작성일: {dateToKorean(created_at)}
+          </IssueCreatedDate>
+        </div>
+      </div>
+      <div className="Column">
+        <IssueCommentCount>코멘트:{comments}</IssueCommentCount>
+      </div>
     </IssueItem>
   );
 };
@@ -25,31 +36,49 @@ export default React.memo(IssueCard);
 const IssueItem = styled.div`
   padding: 1rem;
   border-bottom: 1px solid #e1e4e8;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: space-between;
+
+  .Column {
+    display: flex;
+    flex-direction: column;
+    min-width: 65px;
+  }
+
+  .Row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 `;
 
 const IssueTitle = styled.h2`
-  font-size: 1.25rem;
+  font-size: 0.9rem;
   font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
-const IssueDescription = styled.p`
-  margin-top: 0.5rem;
-  font-size: 1rem;
+const IssueCreatedDate = styled.span`
+  font-size: 0.8rem;
   color: #586069;
 `;
 
 const IssueAuthor = styled.p`
-  margin-top: 0.5rem;
-  font-size: 1rem;
+  font-size: 0.8rem;
   color: #586069;
+  margin-right: 0.5rem;
 `;
 
 const IssueNumber = styled.span`
-  font-size: 1rem;
+  font-size: 0.8rem;
   color: #586069;
+  margin-right: 0.5rem;
 `;
 
 const IssueCommentCount = styled.span`
-  font-size: 1rem;
+  font-size: 0.8rem;
   color: #586069;
 `;

@@ -7,6 +7,7 @@ class IssueService {
   protected page: number;
   readonly owner: string;
   readonly repo: string;
+  readonly per_page: number;
   protected issueListConfig: IssueListConfig;
   protected issueConfig: IssueConfig;
 
@@ -14,13 +15,14 @@ class IssueService {
     this.page = -1;
     this.owner = owner;
     this.repo = repo;
+    this.per_page = 10;
     this.issueListConfig = {
       state: "open",
       page: this.page,
       sort: "comments",
       owner: this.owner,
       repo: this.repo,
-      per_page: 3
+      per_page: this.per_page
     };
     this.issueConfig = {
       owner: this.owner,

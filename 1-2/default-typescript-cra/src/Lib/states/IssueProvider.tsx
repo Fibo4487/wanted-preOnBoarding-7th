@@ -13,12 +13,15 @@ type IssueActionType = {
 interface IssueContextType {
   issueList: IssueListType;
   actions: IssueActionType;
+  hasNextPage: boolean;
 }
 
 const IssueContext = createContext<IssueContextType | null>(null);
 
 export const IssueProvider = ({ children }: { children: React.ReactNode }) => {
   const [issueList, setIssueList] = React.useState<IssueListType>([]);
+  const [isFetching, setIsFetching] = React.useState<boolean>(false);
+  const [hasNextPage, setHasNextPage] = React.useState<boolean>(true);
 
   const owner = process.env.REACT_APP_OWNER;
   const repo = process.env.REACT_APP_REPO;
@@ -33,26 +36,38 @@ export const IssueProvider = ({ children }: { children: React.ReactNode }) => {
   const actions = React.useMemo(() => {
     return {
       fetchIssueList: async () => {
-        const data = await angularIssueFetcher.getNextPageIssueList();
-        if (!data) {
+        if (isFetching) {
+          return;
+        }
+        setIsFetching(true);
+        const issueList = await angularIssueFetcher.getIssueList();
+        if (!issueList) {
           throw new Error("데이터를 불러오지 못했습니다.");
         }
-        setIssueList(data);
+        setIssueList(issueList);
+        setIsFetching(false);
       },
 
       fetchNextPageIssueList: async () => {
-        const data = await angularIssueFetcher.getNextPageIssueList();
-        if (!data) {
-          throw new Error("데이터를 불러오지 못했습니다.");
+        if (isFetching) {
+          return;
         }
-        setIssueList((prev) => [...prev, ...data]);
+        setIsFetching(true);
+        const issueList = await angularIssueFetcher.getNextPageIssueList();
+        if (!issueList) {
+          setHasNextPage(false);
+          setIsFetching(false);
+          return;
+        }
+        setIssueList((prevIssueList) => [...prevIssueList, ...issueList]);
+        setIsFetching(false);
       }
     };
-  }, [setIssueList, angularIssueFetcher]);
+  }, [setIssueList, angularIssueFetcher, isFetching]);
 
   const value = React.useMemo(
-    () => ({ issueList, actions }),
-    [issueList, actions]
+    () => ({ issueList, actions, hasNextPage, isFetching }),
+    [issueList, actions, hasNextPage, isFetching]
   );
 
   return (

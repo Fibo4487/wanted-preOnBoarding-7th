@@ -31,7 +31,7 @@ const HeaderContainer = styled.header`
   border-bottom: 1px solid #e1e4e8;
 
   h1 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 600;
   }
 `;
