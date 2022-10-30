@@ -14,7 +14,7 @@ const Router = () => {
           <Route index path="" element={<IssueList />} />
           <Route path=":issueNumber" element={<IssueDescription />} />
         </Route>
-        <Route path="*" element={<ErrorPage />} />
+        <Route path="/*" element={<ErrorPage />} />
         <Route path="/Error" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
