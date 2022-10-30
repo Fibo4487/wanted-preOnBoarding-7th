@@ -17,7 +17,6 @@ const Block = styled.div`
   ${media.mobile} {
     padding: 0;
   }
-  width: 100%;
 `;
 const Main = styled.main`
   flex: 1;
