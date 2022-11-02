@@ -1,16 +1,46 @@
+import { ICar, SEGMENT, FUELTYPE } from "@/lib/types/CarsResponse";
 import React from "react";
 import styled from "styled-components";
+import useCarList from "./hooks/useCarList";
 
-const CarItem = () => {
-  return <div>Item</div>;
+interface CarItemProps {
+  Car: ICar;
+}
+
+const CarItem = ({ Car }: CarItemProps) => {
+  const { attribute, amount } = Car;
+  const { brand, name, segment, fuelType, imageUrl } = attribute;
+  return (
+    <CarItemContainer>
+      <CarItemInfo>
+        <div className="car-item-title">
+          <h3>{brand}</h3>
+          <h3>{name}</h3>
+        </div>
+        <div className="car-item-description">
+          <p>{`${SEGMENT[segment]} / ${FUELTYPE[fuelType]}`}</p>
+          <p>{`월 ${amount.toLocaleString("en-US")} 원 부터`}</p>
+        </div>
+      </CarItemInfo>
+      <CarItemImageContainer>
+        <CarItemImage src={imageUrl} alt="car" />
+        <CarItemTag>신규</CarItemTag>
+      </CarItemImageContainer>
+    </CarItemContainer>
+  );
 };
 
 const CarList = () => {
+  const { carList, isEmpty } = useCarList();
   return (
     <CarListBlock>
-      <CarItem />
-      <CarItem />
-      <CarItem />
+      {isEmpty ? (
+        <CarListEmpty>차량이 없습니다.</CarListEmpty>
+      ) : (
+        carList?.map((car, index) => {
+          return <CarItem key={index + 1} Car={car} />;
+        })
+      )}
     </CarListBlock>
   );
 };
@@ -20,7 +50,19 @@ export default CarList;
 const CarListBlock = styled.div`
   width: 100%;
   height: 100%;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+
+const CarListEmpty = styled.div`
+  width: 100%;
+  height: calc(100vh - 60px - 5rem);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 17px;
+  font-weight: 800;
 `;
 
 const CarItemContainer = styled.div`
@@ -29,12 +71,22 @@ const CarItemContainer = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.colors.black};
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  justify-content: space-between;
+`;
+
+const CarItemImageContainer = styled.div`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 `;
 
 const CarItemImage = styled.img`
   width: 152px;
   height: 80px;
+  position: absolute;
+  right: 20px;
 `;
 
 const CarItemTag = styled.div`
@@ -45,15 +97,29 @@ const CarItemTag = styled.div`
   color: ${({ theme }) => theme.colors.white};
   font-size: 12px;
   font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  align-self: flex-start;
+  position: relative;
+  right: 8px;
+  top: 8px;
+  text-align: center;
+  line-height: 22px;
 `;
 
 const CarItemInfo = styled.div`
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   justify-content: flex-start;
+  padding: 24px 20px;
+
+  .car-item-title {
+    font-size: 14px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .car-item-description {
+    font-size: 12px;
+    font-weight: 400;
+  }
 `;

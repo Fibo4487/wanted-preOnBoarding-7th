@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import useCategory from "./hooks/useCategory";
-
-const categoryList = ["전체", "대형", "중형", "소형"];
+// import { SEGMENT } from "./../../lib/types/CarsResponse";
 
 interface CategoryItemProps {
   category: string;
@@ -21,16 +20,16 @@ const CategoryItem = ({ category, isSelected, onClick }: CategoryItemProps) => {
 CategoryItem.displayName = "CategoryItem";
 
 const Category = () => {
-  const { isSelected, handleCategorySelect } = useCategory();
+  const { categoryList, selectedCategory, handleCategorySelect } =
+    useCategory();
   return (
     <Block>
       {categoryList.map((category, index) => {
-        const isCategorySelected = isSelected(category);
         return (
           <CategoryItem
             key={index + 1}
             category={category}
-            isSelected={isCategorySelected}
+            isSelected={selectedCategory === category}
             onClick={handleCategorySelect}
           />
         );
@@ -42,7 +41,6 @@ const Category = () => {
 export default Category;
 
 const Block = styled.menu`
-  width: 100%;
   height: 40px;
   display: flex;
   align-items: center;

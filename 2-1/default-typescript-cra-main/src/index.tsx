@@ -5,7 +5,8 @@ import { ThemeProvider } from "styled-components";
 import theme from "./lib/styles/theme";
 import GlobalStyle from "./lib/styles/GlobalStyle";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "react-query-devtools";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { RecoilRoot } from "recoil";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,16 +23,19 @@ const queryClient = new QueryClient({
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
     <Suspense fallback={<div>Loading...</div>}>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme={theme}>
-          <ReactQueryDevtools initialIsOpen={false} />
-          <GlobalStyle />
-          <App />
-        </ThemeProvider>
-      </QueryClientProvider>
+      <RecoilRoot>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider theme={theme}>
+            <ReactQueryDevtools initialIsOpen={false} />
+            <GlobalStyle />
+            <App />
+          </ThemeProvider>
+        </QueryClientProvider>
+      </RecoilRoot>
     </Suspense>
   </React.StrictMode>
 );

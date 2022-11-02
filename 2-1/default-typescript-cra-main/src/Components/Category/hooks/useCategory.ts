@@ -1,17 +1,25 @@
+import { categoryState } from "@/lib/states/categoryState";
+import { SEGMENT } from "@/lib/types/CarsResponse";
 import { useState } from "react";
+import { useSetRecoilState } from "recoil";
 
 const useCategory = () => {
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const setCategoryState = useSetRecoilState(categoryState);
+  const [selectedCategoryKey, setSelectedCategoryKey] =
+    useState<keyof typeof SEGMENT>("ALL");
+  const selectedCategory = SEGMENT[selectedCategoryKey];
+  const categoryKeyList = Object.keys(SEGMENT) as (keyof typeof SEGMENT)[];
+  const categoryList = Object.values(SEGMENT);
 
   const handleCategorySelect = (categoryName: string) => {
-    setSelectedCategory(categoryName);
+    const categoryKey = categoryKeyList.find(
+      (key) => SEGMENT[key] === categoryName
+    );
+    setSelectedCategoryKey(categoryKey as keyof typeof SEGMENT);
+    setCategoryState(categoryKey as keyof typeof SEGMENT);
   };
 
-  const isSelected = (categoryName: string) => {
-    return selectedCategory === categoryName;
-  };
-
-  return { selectedCategory, isSelected, handleCategorySelect };
+  return { categoryList, selectedCategory, handleCategorySelect };
 };
 
 export default useCategory;
