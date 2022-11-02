@@ -7,6 +7,7 @@ import GlobalStyle from "./lib/styles/GlobalStyle";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RecoilRoot } from "recoil";
+import Spinner from "./Components/Spinner/Spinner";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,7 +27,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Spinner />}>
       <RecoilRoot>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider theme={theme}>
