@@ -10,10 +10,11 @@ const useHeader = (location: Location) => {
     if (pathname === "/") {
       setTitle("전체차량");
       setIsMain(true);
-    } else if (pathname === "/detail") {
+    } else if (pathname === "/description") {
       setTitle("차량상세");
       setIsMain(false);
     } else {
+      console.log(location);
       setTitle("404");
       setIsMain(false);
     }

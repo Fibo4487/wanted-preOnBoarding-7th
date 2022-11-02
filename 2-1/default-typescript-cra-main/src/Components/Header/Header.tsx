@@ -1,17 +1,24 @@
 import React from "react";
 import styled from "styled-components";
 import { BackIcon } from "@/Static/svg";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useHeader from "./hooks/useHeader";
 
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { isMain, title } = useHeader(location);
+
+  const handleClickBack = () => {
+    navigate(-1);
+  };
 
   return (
     <Block>
       <Inner>
-        <BackButtonBlock>{!isMain && <BackIcon />}</BackButtonBlock>
+        <BackButtonBlock>
+          {!isMain && <BackIcon onClick={handleClickBack} />}
+        </BackButtonBlock>
         <Title>{title}</Title>
         <TitleRightBlock />
       </Inner>
@@ -52,5 +59,4 @@ const BackButtonBlock = styled.div`
   height: 40px;
   display: flex;
   align-items: center;
-  cursor: pointer;
 `;

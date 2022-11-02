@@ -17,19 +17,18 @@ const CategoryItem = ({ category, isSelected, onClick }: CategoryItemProps) => {
   );
 };
 
-CategoryItem.displayName = "CategoryItem";
-
 const Category = () => {
   const { categoryList, selectedCategory, handleCategorySelect } =
     useCategory();
   return (
     <Block>
       {categoryList.map((category, index) => {
+        const isSelected = category === selectedCategory;
         return (
           <CategoryItem
             key={index + 1}
             category={category}
-            isSelected={selectedCategory === category}
+            isSelected={isSelected}
             onClick={handleCategorySelect}
           />
         );

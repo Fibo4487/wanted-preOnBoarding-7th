@@ -1,13 +1,14 @@
 import { fetchCars } from "@/lib/api/api";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { categoryState } from "@/lib/states/categoryState";
 import CarsResponse from "@/lib/types/CarsResponse";
 import { useQuery } from "@tanstack/react-query";
-// import { useEffect } from "react";
 import { AxiosError } from "axios";
+import { carListState } from "@/lib/states/carListState";
 
 const useCarList = () => {
   const category = useRecoilValue(categoryState);
+  const setCarListState = useSetRecoilState(carListState);
   const { data, isLoading } = useQuery<CarsResponse, AxiosError>(
     ["cars"],
     fetchCars,
@@ -21,6 +22,9 @@ const useCarList = () => {
         };
 
         return filteredData;
+      },
+      onSuccess: (data) => {
+        setCarListState(data?.payload);
       }
     }
   );

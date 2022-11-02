@@ -2,8 +2,8 @@ export interface ICar {
   id: number;
   amount: number;
   attribute: Attribute;
-  startDate: Date;
-  createdAt: Date;
+  startDate: string;
+  createdAt: string;
   insurance?: Insurance[];
   additionalProducts?: AdditionalProducts[];
 }

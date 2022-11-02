@@ -1,6 +1,6 @@
 import { categoryState } from "@/lib/states/categoryState";
 import { SEGMENT } from "@/lib/types/CarsResponse";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useSetRecoilState } from "recoil";
 
 const useCategory = () => {
@@ -11,13 +11,13 @@ const useCategory = () => {
   const categoryKeyList = Object.keys(SEGMENT) as (keyof typeof SEGMENT)[];
   const categoryList = Object.values(SEGMENT);
 
-  const handleCategorySelect = (categoryName: string) => {
+  const handleCategorySelect = useCallback((categoryName: string) => {
     const categoryKey = categoryKeyList.find(
       (key) => SEGMENT[key] === categoryName
     );
     setSelectedCategoryKey(categoryKey as keyof typeof SEGMENT);
     setCategoryState(categoryKey as keyof typeof SEGMENT);
-  };
+  }, []);
 
   return { categoryList, selectedCategory, handleCategorySelect };
 };

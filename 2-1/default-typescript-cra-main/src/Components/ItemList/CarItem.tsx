@@ -4,13 +4,14 @@ import styled from "styled-components";
 
 interface CarItemProps {
   Car: ICar;
+  handleClickItem: (id: number) => void;
 }
 
-const CarItem = ({ Car }: CarItemProps) => {
-  const { attribute, amount } = Car;
+const CarItem = ({ Car, handleClickItem }: CarItemProps) => {
+  const { attribute, amount, id } = Car;
   const { brand, name, segment, fuelType, imageUrl } = attribute;
   return (
-    <CarItemContainer>
+    <CarItemContainer onClick={() => handleClickItem(id)}>
       <CarItemInfo>
         <div className="car-item-title">
           <h3>{brand}</h3>
@@ -29,7 +30,7 @@ const CarItem = ({ Car }: CarItemProps) => {
   );
 };
 
-export default CarItem;
+export default React.memo(CarItem);
 
 const CarItemContainer = styled.div`
   width: 100%;

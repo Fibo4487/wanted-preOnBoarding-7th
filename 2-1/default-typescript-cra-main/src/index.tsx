@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { ThemeProvider } from "styled-components";
@@ -7,7 +7,6 @@ import GlobalStyle from "./lib/styles/GlobalStyle";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RecoilRoot } from "recoil";
-import Spinner from "./Components/Spinner/Spinner";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,16 +26,14 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <Suspense fallback={<Spinner />}>
-      <RecoilRoot>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider theme={theme}>
-            <ReactQueryDevtools initialIsOpen={false} />
-            <GlobalStyle />
-            <App />
-          </ThemeProvider>
-        </QueryClientProvider>
-      </RecoilRoot>
-    </Suspense>
+    <RecoilRoot>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={theme}>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <GlobalStyle />
+          <App />
+        </ThemeProvider>
+      </QueryClientProvider>
+    </RecoilRoot>
   </React.StrictMode>
 );

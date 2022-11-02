@@ -1,17 +1,30 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import CarItem from "./CarItem";
 import useCarList from "./hooks/useCarList";
 
 const CarList = () => {
   const { carList, isEmpty } = useCarList();
+  const navigate = useNavigate();
+
+  const handleClickItem = (id: number) => {
+    navigate(`/description?id=${id}`);
+  };
+
   return (
     <CarListBlock>
       {isEmpty ? (
-        <CarListEmpty>차량이 없습니다.</CarListEmpty>
+        <CarListInfo>차량이 없습니다.</CarListInfo>
       ) : (
         carList?.map((car, index) => {
-          return <CarItem key={index + 1} Car={car} />;
+          return (
+            <CarItem
+              key={index + 1}
+              Car={car}
+              handleClickItem={handleClickItem}
+            />
+          );
         })
       )}
     </CarListBlock>
@@ -28,7 +41,7 @@ const CarListBlock = styled.div`
   flex-wrap: wrap;
 `;
 
-const CarListEmpty = styled.div`
+const CarListInfo = styled.div`
   width: 100%;
   height: calc(100vh - 60px - 5rem);
   display: flex;

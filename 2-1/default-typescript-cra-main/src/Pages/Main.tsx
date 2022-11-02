@@ -1,12 +1,15 @@
 import Category from "@/Components/Category/Category";
 import CarList from "@/Components/ItemList/CarList";
-import React from "react";
+import Spinner from "@/Components/Spinner/Spinner";
+import React, { Suspense } from "react";
 
 const Main = () => {
   return (
     <>
       <Category />
-      <CarList />
+      <Suspense fallback={<Spinner />}>
+        <CarList />
+      </Suspense>
     </>
   );
 };
