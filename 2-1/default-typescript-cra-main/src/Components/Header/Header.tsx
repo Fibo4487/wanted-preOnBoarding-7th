@@ -6,17 +6,14 @@ import useHeader from "./hooks/useHeader";
 
 const Header = () => {
   const location = useLocation();
-  const { isMain } = useHeader(location);
+  const { isMain, title } = useHeader(location);
 
   return (
     <Block>
       <Inner>
-        {isMain && (
-          <BackButtonBlock>
-            <BackIcon />
-          </BackButtonBlock>
-        )}
-        <Title>React</Title>
+        <BackButtonBlock>{!isMain && <BackIcon />}</BackButtonBlock>
+        <Title>{title}</Title>
+        <TitleRightBlock />
       </Inner>
     </Block>
   );
@@ -24,23 +21,30 @@ const Header = () => {
 
 export default Header;
 
-const Block = styled.div`
+const Block = styled.header`
   height: 60px;
-  background-color: #000;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.black};
+  padding: 0 20px;
 `;
 
 const Inner = styled.div`
-  width: calc(100% - 40px);
+  width: 100%;
   height: 100%;
   margin: 0 auto;
   display: flex;
   align-items: center;
 `;
 
+const TitleRightBlock = styled.div`
+  width: 100%;
+`;
+
 const Title = styled.div`
-  font-size: 1.5rem;
+  font-size: 17px;
   font-weight: 800;
-  color: #fff;
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
 `;
 
 const BackButtonBlock = styled.div`
