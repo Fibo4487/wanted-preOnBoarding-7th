@@ -61,7 +61,7 @@ const CategoryItemLi = styled.li<{ isSelected: boolean }>`
     isSelected ? theme.colors.white : theme.colors.black};
   font-size: 14px;
   font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  text-align: center;
+  line-height: 27px;
+  cursor: pointer;
 `;
