@@ -1,4 +1,5 @@
 import React from "react";
+import { hydrate } from "react-dom";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { ThemeProvider } from "styled-components";
@@ -14,17 +15,32 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
       suspense: true,
       onError: (error) => {
-        console.log(error);
-      }
+        console.error(error);
+      },
+      staleTime: 1000 * 60 * 60 * 24
     }
   }
 });
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
-);
+// const root = ReactDOM.createRoot(
+//   document.getElementById("root") as HTMLElement
+// );
 
-root.render(
+// root.render(
+//   <React.StrictMode>
+//     <RecoilRoot>
+//       <QueryClientProvider client={queryClient}>
+//         <ThemeProvider theme={theme}>
+//           <ReactQueryDevtools initialIsOpen={false} />
+//           <GlobalStyle />
+//           <App />
+//         </ThemeProvider>
+//       </QueryClientProvider>
+//     </RecoilRoot>
+//   </React.StrictMode>
+// );
+
+hydrate(
   <React.StrictMode>
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
@@ -35,5 +51,6 @@ root.render(
         </ThemeProvider>
       </QueryClientProvider>
     </RecoilRoot>
-  </React.StrictMode>
+  </React.StrictMode>,
+  document.getElementById("root")
 );

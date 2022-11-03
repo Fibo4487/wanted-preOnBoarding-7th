@@ -9,6 +9,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import useDescription from "./hooks/useDescription";
 import useDate from "@/lib/hooks/useDate";
+import { Helmet } from "react-helmet";
 
 const Description = () => {
   const { search } = useLocation();
@@ -18,6 +19,18 @@ const Description = () => {
   const dateString = useDate(createdAt);
   return (
     <>
+      <Helmet>
+        <title>{`${attribute?.brand} ${attribute?.name}`}</title>
+        <meta
+          property="og:title"
+          content={`${attribute?.brand} ${attribute?.name}`}
+        />
+        <meta
+          property="og:description"
+          content={`월 ${amount?.toLocaleString("en-US")} 원`}
+        />
+        <meta property="og:image" content={attribute?.imageUrl} />
+      </Helmet>
       <DescriptionImage imgUrl={attribute?.imageUrl} />
       <DescriptionName name={attribute?.name} brand={attribute?.brand} />
       <DescriptionItem
