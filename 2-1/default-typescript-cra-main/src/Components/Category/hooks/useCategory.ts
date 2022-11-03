@@ -1,5 +1,5 @@
-import { categoryState } from "@/lib/states/categoryState";
-import { SEGMENT } from "@/lib/types/CarsResponse";
+import { categoryState } from "../../../lib/states/categoryState";
+import { SEGMENT } from "../../../lib/types/CarsResponse";
 import { useCallback, useState } from "react";
 import { useSetRecoilState } from "recoil";
 

@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { BackIcon } from "@/Static/svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import useHeader from "./hooks/useHeader";
 
@@ -16,8 +15,8 @@ const Header = () => {
   return (
     <Block>
       <Inner>
-        <BackButtonBlock>
-          {!isMain && <BackIcon onClick={handleClickBack} />}
+        <BackButtonBlock onClick={handleClickBack}>
+          {!isMain && <div>{"<="}</div>}
         </BackButtonBlock>
         <Title>{title}</Title>
         <TitleRightBlock />

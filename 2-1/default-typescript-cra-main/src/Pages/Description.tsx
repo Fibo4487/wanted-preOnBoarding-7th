@@ -1,14 +1,14 @@
-import DescriptionHeader from "@/Components/ItemDescription/DescriptionHeader";
-import DescriptionImage from "@/Components/ItemDescription/DescriptionImage";
-import DescriptionItem from "@/Components/ItemDescription/DescriptionItem";
-import DescriptionName from "@/Components/ItemDescription/DescriptionName";
+import DescriptionHeader from "../Components/ItemDescription/DescriptionHeader";
+import DescriptionImage from "../Components/ItemDescription/DescriptionImage";
+import DescriptionItem from "../Components/ItemDescription/DescriptionItem";
+import DescriptionName from "../Components/ItemDescription/DescriptionName";
 // import useDate from "@/lib/hooks/useDate";
 import QueryString from "qs";
-import { FUELTYPE, SEGMENT } from "@/lib/types/CarsResponse";
+import { FUELTYPE, SEGMENT } from "../lib/types/CarsResponse";
 import React from "react";
 import { useLocation } from "react-router-dom";
 import useDescription from "./hooks/useDescription";
-import useDate from "@/lib/hooks/useDate";
+import useDate from "../lib/hooks/useDate";
 
 const Description = () => {
   const { search } = useLocation();

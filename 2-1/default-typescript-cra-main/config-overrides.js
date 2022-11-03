@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { addWebpackAlias, override } = require("customize-cra");
-const path = require("path");
+import { addWebpackAlias, override } from "customize-cra";
+import path from "path";
 
 module.exports = override(
   addWebpackAlias({

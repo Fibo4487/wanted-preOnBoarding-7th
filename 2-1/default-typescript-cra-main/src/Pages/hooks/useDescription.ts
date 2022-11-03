@@ -1,7 +1,7 @@
 // import { carDescriptionSelector as selector } from "@/lib/states/carListState";
 
-import { fetchCars } from "@/lib/api/api";
-import CarsResponse, { ICar } from "@/lib/types/CarsResponse";
+import { fetchCars } from "../../lib/api/api";
+import CarsResponse, { ICar } from "../../lib/types/CarsResponse";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 

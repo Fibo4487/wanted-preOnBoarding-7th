@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
 import App from "./App";
 import { ThemeProvider } from "styled-components";
 import theme from "./lib/styles/theme";
@@ -7,6 +6,7 @@ import GlobalStyle from "./lib/styles/GlobalStyle";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RecoilRoot } from "recoil";
+import { hydrate } from "react-dom";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,11 +20,7 @@ const queryClient = new QueryClient({
   }
 });
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
-);
-
-root.render(
+hydrate(
   <React.StrictMode>
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
@@ -35,5 +31,6 @@ root.render(
         </ThemeProvider>
       </QueryClientProvider>
     </RecoilRoot>
-  </React.StrictMode>
+  </React.StrictMode>,
+  document.getElementById("root")
 );

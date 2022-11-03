@@ -1,10 +1,10 @@
-import { fetchCars } from "@/lib/api/api";
+import { fetchCars } from "../../../lib/api/api";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { categoryState } from "@/lib/states/categoryState";
-import CarsResponse from "@/lib/types/CarsResponse";
+import { categoryState } from "../../../lib/states/categoryState";
+import CarsResponse from "../../../lib/types/CarsResponse";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { carListState } from "@/lib/states/carListState";
+import { carListState } from "../../../lib/states/carListState";
 
 const useCarList = () => {
   const category = useRecoilValue(categoryState);

@@ -1,4 +1,4 @@
-import { FUELTYPE, ICar, SEGMENT } from "@/lib/types/CarsResponse";
+import { FUELTYPE, ICar, SEGMENT } from "../../lib/types/CarsResponse";
 import React from "react";
 import styled from "styled-components";
 

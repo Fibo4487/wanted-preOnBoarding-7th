@@ -1,6 +1,6 @@
-import MainLayout from "@/Components/Layout/MainLayout";
-import Description from "@/Pages/Description";
-import Main from "@/Pages/Main";
+import MainLayout from "../Components/Layout/MainLayout";
+import Description from "../Pages/Description";
+import Main from "../Pages/Main";
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
