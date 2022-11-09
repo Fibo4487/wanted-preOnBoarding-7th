@@ -1,26 +1,59 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import styled from "styled-components";
+import SearchSelect from "./Components/Search/SearchSelect";
+import { SickItem } from "@/Components/Search/SearchSelect";
+import Api from "./lib/api/Api";
 
 function App() {
+  const [data, setData] = React.useState<SickItem[]>([]);
+  const [query, setQuery] = React.useState<string>("");
+
+  React.useEffect(() => {
+    const fetchSickData = async () => {
+      const sickData = await Api.get<SickItem[]>(`/sick?q=${query}`);
+      setData(sickData);
+    };
+    fetchSickData();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <Title>국내 모든 임상시험 검색하고 온라인으로 참여하기</Title>
+      <SearchContainer>
+        <SearchSelect
+          data={data}
+          query={query}
+          setQuery={setQuery}
+          select={(item) => console.info(item)}
+        />
+      </SearchContainer>
+    </Container>
   );
 }
 
 export default App;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  font-size: calc(10px + 2vmin);
+  text-align: center;
+  padding: 80px 0 160px 0;
+`;
+
+const Title = styled.h2`
+  font-size: 2.125rem;
+  font-weight: 700;
+  letter-spacing: -0.018em;
+  line-height: 1.6;
+`;
+
+const SearchContainer = styled.div`
+  display: flex;
+  margin: 0 auto;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+`;
