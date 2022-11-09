@@ -26,28 +26,30 @@ const SearchSelect = ({ select }: SearchSelectProps) => {
       return;
     }
     const sickData = await Api.get<SickItem[]>(`/sick?q=${query}`);
-    const results = sickData.filter((item) => {
-      return item.sickNm.toLowerCase().includes(query.toLowerCase());
-    });
+    const results = sickData
+      .filter((item) => {
+        return item.sickNm.toLowerCase().includes(query.toLowerCase());
+      })
+      ?.slice(0, 15);
     setCache((prev) => {
       const newCache = new Map(prev);
 
       newCache.set(query, results);
       return newCache;
     });
-    setSearchResults(results?.slice(0, 15));
+    setSearchResults(results);
   };
 
   const debounceGetSickData = useDebounce<typeof fetchSickData>(
     fetchSickData,
-    1000
+    500
   );
 
   const handleSearchQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
     if (!input) {
       setSearchResults([]);
-      setQuery("");
+      return setQuery("");
     }
     debounceGetSickData(input);
     setQuery(input);
