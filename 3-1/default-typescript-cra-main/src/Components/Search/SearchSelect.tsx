@@ -1,3 +1,5 @@
+import Api from "@/lib/api/Api";
+import useDebounce from "@/lib/util/useDebounce";
 import React, { useState } from "react";
 import SearchResultSpan from "./SearchResultSpan";
 
@@ -7,23 +9,48 @@ export type SickItem = {
 };
 
 interface SearchSelectProps {
-  data: SickItem[];
   select: (item: SickItem) => void;
-  query: string;
-  setQuery: (query: string) => void;
 }
 
-const SearchSelect = ({ data, select, query, setQuery }: SearchSelectProps) => {
-  const [searchResults, setSearchResults] = useState(data);
+const SearchSelect = ({ select }: SearchSelectProps) => {
+  const [searchResults, setSearchResults] = useState<SickItem[]>([]);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
+  const [query, setQuery] = useState<string>("");
+  const [cache, setCache] = useState<Map<string, SickItem[]>>(new Map());
+
+  const fetchSickData = async (query: string) => {
+    const cacheKeys = Array.from(cache.keys());
+
+    if (cacheKeys.includes(query)) {
+      setSearchResults(cache.get(query) as SickItem[]);
+      return;
+    }
+    const sickData = await Api.get<SickItem[]>(`/sick?q=${query}`);
+    const results = sickData.filter((item) => {
+      return item.sickNm.toLowerCase().includes(query.toLowerCase());
+    });
+    setCache((prev) => {
+      const newCache = new Map(prev);
+
+      newCache.set(query, results);
+      return newCache;
+    });
+    setSearchResults(results?.slice(0, 15));
+  };
+
+  const debounceGetSickData = useDebounce<typeof fetchSickData>(
+    fetchSickData,
+    1000
+  );
 
   const handleSearchQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
+    if (!input) {
+      setSearchResults([]);
+      setQuery("");
+    }
+    debounceGetSickData(input);
     setQuery(input);
-    const results = data.filter((item) => {
-      return item.sickNm.toLowerCase().includes(input.toLowerCase());
-    });
-    setSearchResults(results);
     setHighlightedIndex(0);
   };
 

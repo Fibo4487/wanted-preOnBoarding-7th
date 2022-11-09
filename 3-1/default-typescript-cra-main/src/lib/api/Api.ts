@@ -6,7 +6,7 @@ export default class Api {
   public static async get<T>(path: string): Promise<T> {
     try {
       const response = await axios.get<T>(`${this.baseUrl}${path}`);
-
+      console.info("calling api");
       return response.data;
     } catch (error) {
       if (error instanceof Error) {

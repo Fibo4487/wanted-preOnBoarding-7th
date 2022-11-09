@@ -1,31 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import SearchSelect from "./Components/Search/SearchSelect";
-import { SickItem } from "@/Components/Search/SearchSelect";
-import Api from "./lib/api/Api";
 
 function App() {
-  const [data, setData] = React.useState<SickItem[]>([]);
-  const [query, setQuery] = React.useState<string>("");
-
-  React.useEffect(() => {
-    const fetchSickData = async () => {
-      const sickData = await Api.get<SickItem[]>(`/sick?q=${query}`);
-      setData(sickData);
-    };
-    fetchSickData();
-  }, []);
-
   return (
     <Container>
       <Title>국내 모든 임상시험 검색하고 온라인으로 참여하기</Title>
       <SearchContainer>
-        <SearchSelect
-          data={data}
-          query={query}
-          setQuery={setQuery}
-          select={(item) => console.info(item)}
-        />
+        <SearchSelect select={(item) => console.info(item)} />
       </SearchContainer>
     </Container>
   );
